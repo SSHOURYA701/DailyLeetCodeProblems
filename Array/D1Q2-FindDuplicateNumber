@@ -1,0 +1,22 @@
+#https://leetcode.com/problems/find-the-duplicate-number/
+
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        
+        #Loop detection
+        slow,fast=nums[0], nums[0]
+        while True:
+
+            fast = nums[nums[fast]] 
+            slow = nums[slow]
+            
+            if slow == fast:
+                # print(slow,fast)
+                break
+        
+        #Loop Entrance point
+        slow = nums[0]
+        while slow != fast:
+            slow,fast= nums[slow],nums[fast]
+            
+        return slow
