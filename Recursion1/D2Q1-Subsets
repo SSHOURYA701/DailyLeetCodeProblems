@@ -1,0 +1,26 @@
+#https://leetcode.com/problems/subsets/
+
+def subset(index, mainList,tempList,nums):
+    # base Condition
+    if index == len(nums):
+        mainList.append(tempList.copy())
+        return
+    
+    #Selecting the curr index
+    tempList.append(nums[index])
+    subset(index+1,mainList,tempList,nums)
+    tempList.pop()
+    
+    #not selecting the curr index
+    subset(index+1,mainList,tempList,nums)
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        
+        index, mainList=0,[]
+        
+        subset(index,mainList,[],nums)
+        
+        return mainList
+        
+        
