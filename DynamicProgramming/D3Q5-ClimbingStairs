@@ -1,0 +1,22 @@
+#https://leetcode.com/problems/climbing-stairs/
+
+def climbStairsUtil(currStair,noOfStairs,dp):
+    
+    if currStair == noOfStairs : 
+        return 1
+    if currStair> noOfStairs:
+        return 0
+    
+    if dp[currStair] !=-1: return dp[currStair]
+    
+    dp[currStair] = climbStairsUtil(currStair+1,noOfStairs,dp) + climbStairsUtil(currStair+2,noOfStairs,dp)
+    
+    return dp[currStair]
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        
+        dp=[-1]*(n+1)
+        answer = climbStairsUtil(0,n,dp)
+        print(dp)
+        return answer
