@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/min-cost-climbing-stairs/
+
+def minCostUtil(currStair,dp,cost):
+    if currStair == len(cost):
+        return 0
+    if currStair > len(cost):
+        return 10000
+    
+    if dp[currStair] !=-1:
+        return dp[currStair]
+     
+    left = minCostUtil(currStair + 1, dp,cost) + cost[currStair]
+    
+    right = minCostUtil(currStair+2,dp,cost) + cost[currStair]
+    
+    dp[currStair] = min(left,right)
+    
+    return dp[currStair]
+
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        
+        #declaring a dp array
+        dp=[-1]*(len(cost)+1)
+        
+        firstCall = minCostUtil(0,dp,cost)
+        
+        secondCall = minCostUtil(1,dp,cost)
+        
+        return min(firstCall,secondCall)
