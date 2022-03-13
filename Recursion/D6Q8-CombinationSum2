@@ -1,0 +1,30 @@
+#https://leetcode.com/problems/combination-sum-ii/
+
+def findCS2(index,mainList,tempList,candidates,target):
+    
+    #base condition
+    if target == 0:
+        mainList.append(tempList.copy())
+        return
+    
+    # i = index
+    
+    for i in range(index,len(candidates)):
+        
+        if i > index and candidates[i] == candidates[i-1]: continue
+        
+        if candidates[i] > target: break
+            
+        tempList.append(candidates[i])
+        findCS2(i + 1, mainList,tempList,candidates, target - candidates[i])
+        tempList.pop()
+
+
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        
+        index,mainList=0,[]
+        candidates.sort()
+        findCS2(index,mainList,[],candidates,target)
+        
+        return mainList
