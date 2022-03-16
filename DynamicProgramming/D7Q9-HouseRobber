@@ -1,0 +1,28 @@
+#https://leetcode.com/problems/house-robber/
+
+def utilFun(ind,nums,dp):
+    if ind == 1 or ind ==0:
+        return nums[ind]
+    
+    if dp[ind] !=-1:
+        return dp[ind]
+    maxSum = 0
+    
+    for i in range(2,ind+1):
+       
+        	tempSum = utilFun(ind - i, nums,dp) 
+        	maxSum = tempSum if tempSum>maxSum else maxSum
+            
+    dp [ind] = nums[ind] + maxSum
+    return dp[ind]
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        
+        if len(nums) == 1:
+            return nums[0]
+        dp = [-1]*(len(nums)+1)
+        n = len(nums)
+        ans = max(utilFun(n-1,nums,dp),utilFun(n-2,nums,dp))
+    #     print(ans)
+        return ans
