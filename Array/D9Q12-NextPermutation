@@ -1,0 +1,55 @@
+#https://leetcode.com/problems/next-permutation/
+
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+
+        def reverse(nums,i,j):
+
+            # i,j=0,len(nums)-1
+            while j>=i:
+                nums[i],nums[j]=nums[j],nums[i]
+                i,j=i+1,j-1
+
+            return nums
+        n = len(nums)
+        
+        targetIndex=-1
+        
+        # traversing from the back to get the 1st small element after increasing elements
+        for i in range(n-2,-1,-1):
+            if nums[i]<nums[i+1]:
+                targetIndex = i
+                break
+        # print(targetIndex) 
+        #check if there exists a target index
+        
+        if targetIndex ==-1:
+            return reverse(nums,0,n-1)
+        
+        #swaping the just greater element from the right subarray from the target index
+        for i in range(n-1,targetIndex,-1):
+            if nums[i] > nums[targetIndex]:
+                nums[i],nums[targetIndex] = nums[targetIndex], nums[i]
+                break
+                
+        #reverse the right subarray of target index
+        nums = reverse(nums,targetIndex+1,n-1)
+        
+        return nums
+                
+                
+              
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
+        
