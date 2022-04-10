@@ -1,0 +1,27 @@
+#https://leetcode.com/problems/unique-paths/
+
+def uniquePathsUtil(rowIndex,colIndex,dpArr,m,n):
+    # print(rowIndex,colIndex)
+    if (rowIndex == m-1 ) and (colIndex == n-1):
+        return 1
+
+    if (rowIndex >=m ) or (colIndex >=n):
+        return 0
+    
+    # print(rowIndex,colIndex)
+    if dpArr[rowIndex][colIndex] !=-1:
+        
+        return dpArr[rowIndex][colIndex]
+
+    dpArr[rowIndex][colIndex] = uniquePathsUtil(rowIndex+1,colIndex,dpArr,m,n) + uniquePathsUtil(rowIndex,colIndex+1,dpArr,m,n)
+    # print(dpArr)
+    return dpArr[rowIndex][colIndex]
+
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        
+        dpArr = [[-1 for i in range(n)] for j in range(m)]
+        # print(dpArr)
+        answer = uniquePathsUtil(0,0,dpArr,m,n)
+        
+        return answer
