@@ -1,0 +1,52 @@
+#https://leetcode.com/problems/unique-paths-iii/
+
+def uniquePathsIIIUtil(rowIndex,colIndex,visited,destination):
+    
+    if (rowIndex,colIndex) == destination:
+        return len(visited) == 0
+    
+    result = 0
+    
+    #try all paths
+    if (rowIndex - 1 ,colIndex) in visited:
+        visited.remove((rowIndex-1,colIndex))
+        result +=uniquePathsIIIUtil(rowIndex-1,colIndex,visited,destination)
+        visited.add((rowIndex-1,colIndex))
+        
+    if (rowIndex,colIndex+1) in visited:
+        visited.remove((rowIndex,colIndex+1))
+        result +=uniquePathsIIIUtil(rowIndex,colIndex+1,visited,destination)
+        visited.add((rowIndex,colIndex+1))
+    
+    if (rowIndex+1 ,colIndex) in visited:
+        visited.remove((rowIndex+1,colIndex))
+        result +=uniquePathsIIIUtil(rowIndex+1,colIndex,visited,destination)
+        visited.add((rowIndex+1,colIndex))
+    
+    if (rowIndex,colIndex-1) in visited:
+        visited.remove((rowIndex,colIndex-1))
+        result +=uniquePathsIIIUtil(rowIndex,colIndex-1,visited,destination)
+        visited.add((rowIndex,colIndex-1))
+        
+    return result
+        
+    
+
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        
+        rows,cols = len(grid),len(grid[0])
+        visited = set()
+        startingCoordinates,destinationCoordinates = None , None
+        #To find starting, destination, make a data structure to get an idea whether we have visited the cell before or not.
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1:
+                    startingCoordinates = (i,j)
+                elif grid[i][j] == 2:
+                    destinationCoordinates = (i,j)
+                    visited.add(destinationCoordinates)
+                elif grid[i][j] ==0:
+                    visited.add((i,j))
+                
+        return uniquePathsIIIUtil(startingCoordinates[0],startingCoordinates[1],visited,destinationCoordinates)
