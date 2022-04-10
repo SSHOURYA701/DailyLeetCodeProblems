@@ -1,0 +1,39 @@
+#https://leetcode.com/problems/unique-paths-ii/
+
+def uniquePathsWithObstaclesUtil(rowIndex,colIndex,dpArr,obstacleGrid):
+    # print(rowIndex,colIndex)
+    if (rowIndex == 0) and (colIndex == 0):
+        return 1
+    
+    if (rowIndex < 0) or (colIndex < 0):
+        return 0
+    
+    if obstacleGrid[rowIndex][colIndex] == 1:
+        # print(rowIndex,colIndex,dpArr,obstacleGrid)
+        dpArr[rowIndex][colIndex] = 0
+        return 0
+    
+    if dpArr[rowIndex][colIndex] !=-1:
+        return dpArr[rowIndex][colIndex]
+    
+    dpArr[rowIndex][colIndex] = uniquePathsWithObstaclesUtil(rowIndex-1,colIndex,dpArr,obstacleGrid)+uniquePathsWithObstaclesUtil(rowIndex,colIndex-1,dpArr,obstacleGrid)
+    
+    return dpArr[rowIndex][colIndex]
+    
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        if obstacleGrid[0][0] == 1:
+            return 0
+        rows,cols=len(obstacleGrid),len(obstacleGrid[0])
+        dpArr=[]
+        for i in range(rows):
+            col = []
+            for j in range(cols):
+                col.append(-1)
+            dpArr.append(col)
+        # dpArr = [[-1 for i in range(rows)] for j in range(cols)]
+        # print(dpArr)
+        answer = uniquePathsWithObstaclesUtil(rows-1,cols-1,dpArr,obstacleGrid)
+        # print (dpArr)
+        return answer
+        
