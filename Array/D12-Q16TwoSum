@@ -1,15 +1,19 @@
-#https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+#https://leetcode.com/problems/two-sum/
 
 class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        i,j = 0,len(numbers)-1
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         
-        while i<j:
-            tempSum = numbers[i] +numbers[j]
+        ans  = []
+        dictIndex={}
+        
+        
+        for i in range(0,len(nums)):
             
-            if tempSum < target:
-                i +=1
-            elif tempSum > target:
-                j -=1
-            else:
-                return [i+1,j+1]
+            if target - nums[i] in dictIndex.keys():
+                
+                ans.append(dictIndex[target-nums[i]])
+                ans.append(i)
+                break
+            dictIndex[nums[i]] = i
+            
+        return ans
