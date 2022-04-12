@@ -1,0 +1,32 @@
+#https://leetcode.com/problems/3sum/
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        
+        #sort the array so we can apply 2 sum with sorted array concept
+        nums.sort()
+        ans=[]
+        target=0
+        i=0
+        print(len(nums))
+        while i < len(nums) - 2:
+            # print(i)
+            j,k=i+1,len(nums)-1
+            tempTarget = target - nums[i]
+            # print(i,tempTarget)
+            while j<k:
+                # print(i,j,k)
+                tempSum = nums[j]+nums[k]
+                if tempSum < tempTarget:
+                    j +=1
+                elif tempSum > tempTarget:
+                    k -=1
+                else:
+                    tempList = [nums[i],nums[j],nums[k]]
+                    if tempList not in ans:
+                        ans.append([nums[i],nums[j],nums[k]])    
+                    j +=1
+                    k -=1
+            i +=1
+            
+        return ans 
