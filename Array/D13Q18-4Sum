@@ -1,0 +1,41 @@
+#https://leetcode.com/problems/4sum/
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        
+        #sort the array
+        nums.sort()
+        
+        ans = []
+        i=0
+        
+        while i < len(nums)-3:
+            j=i+1
+            # tempTarget -=target
+            while j < len(nums) - 2:
+                k,l=j+1,len(nums)-1
+                tempTarget = target - nums[i] - nums[j]
+
+                while k<l:
+                    # print(i,j,k,l)
+                    tempSum = nums[k] +nums[l]
+                    # print(tempTarget,tempSum)
+                    if tempSum < tempTarget:
+                        k +=1
+                    elif tempSum > tempTarget:
+                        l -=1
+                    else:
+                        tempList = [nums[i],nums[j],nums[k],nums[l]]
+                        # print("tempans")
+                        if tempList not in ans:
+                            # print("ans")
+                            ans.append(tempList)
+                        k +=1
+                        l -=1
+                j +=1
+            i +=1
+            
+        
+        return ans
+            
+        
