@@ -1,0 +1,30 @@
+#https://leetcode.com/problems/longest-consecutive-sequence/solution/
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        
+        if nums == []:
+            return 0
+        
+        #making a set for O(1) lookup
+        elementSet = { element for element in nums}
+        ans=0
+        
+        #iterating over all the elements
+        for element in nums:
+            
+            #if curr element-1 is in set then the curr element would be a part of already a bigger sequence SO WE SKIP IT
+            #and if we do not find element -1 then we may be at the base of a sequence
+            if element-1 not in elementSet:
+                tempAns =1
+                currElement = element
+                #now if we see that there is element+1 present in set then there is a sequence 
+                while currElement+1 in elementSet:
+                        tempAns +=1
+                        currElement +=1
+                    
+                ans = tempAns if tempAns> ans else ans
+                        
+        return ans
+        
+#TC: O(n) SC: O(n)
