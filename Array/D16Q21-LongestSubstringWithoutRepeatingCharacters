@@ -1,0 +1,24 @@
+#https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        ans,startIndex=0,0
+        indexDict={}
+        
+        for i,char in enumerate(s):
+            
+            #if char in dictonary
+            if char in indexDict:
+                #i-start
+                ans = max(ans,i-startIndex)
+                
+                #update the start 
+                startIndex = max(startIndex,indexDict[char]+1)
+                
+            indexDict[char] = i
+        
+        return max(ans,len(s)-startIndex)
+                
+        
+        
