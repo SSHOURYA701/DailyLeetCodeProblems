@@ -1,0 +1,25 @@
+#https://leetcode.com/problems/continuous-subarray-sum/
+
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        
+        
+        prefixSumRem = 0
+        
+        #dictionary which contains the prefixsum remainder and its index
+        dictPrefSumRemIndex = {0:-1}
+        
+        for i,element in enumerate(nums):
+            if k!=0:
+                prefixSumRem = (prefixSumRem+element) % k
+            else:
+                prefixSumRem += element
+                
+            if prefixSumRem not in dictPrefSumRemIndex:
+                dictPrefSumRemIndex[prefixSumRem] = i
+            else:
+                if i - dictPrefSumRemIndex[prefixSumRem] >=2:
+                    return True
+                
+            
+        return False
