@@ -1,0 +1,22 @@
+#https://leetcode.com/problems/max-consecutive-ones/
+
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        
+        ans,count = 0,0
+        
+        left,right=0,0
+        
+        while right < len(nums):
+            
+            if nums[right] ==1:
+                count +=1
+                ans = ans if ans > count else count
+                right +=1
+                
+            else:
+                left = right
+                right +=1
+                count = 0
+                
+        return ans
