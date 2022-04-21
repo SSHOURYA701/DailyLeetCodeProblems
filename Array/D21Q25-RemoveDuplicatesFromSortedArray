@@ -1,0 +1,18 @@
+#https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        
+        left,right = 0,0
+        while right < len(nums)-1:
+            
+            if nums[right] == nums[right+1]:
+                right +=1
+                
+            elif nums[right] !=nums[right+1]:
+                right +=1
+                nums[left+1] = nums[right]
+                left +=1
+            
+        return left+1
+        
