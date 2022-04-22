@@ -1,0 +1,33 @@
+#https://leetcode.com/problems/product-of-array-except-self/
+
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        
+        prefProdFromLeft,prefProdFromRight,ans = [-1]*len(nums),[-1]*len(nums),[-1]*len(nums)
+        
+        #The 2 loops can be optimized into 1 single loop using i and n i.e len of the array nums
+        for i in range(0,len(nums)):
+            if i == 0:
+                prefProdFromLeft[i]=nums[i]
+            else:
+                prefProdFromLeft[i] = nums[i]*prefProdFromLeft[i-1]
+        
+        for i in range(len(nums)-1,-1,-1):
+            if i ==len(nums)-1:
+                prefProdFromRight[i]=nums[i]
+            else:
+                prefProdFromRight[i] = nums[i]*prefProdFromRight[i+1]
+                
+        # print(nums,prefProdFromLeft,prefProdFromRight)
+        
+        for i in range(0,len(nums)):
+            if i == 0:
+                
+                ans[i]=prefProdFromRight[i+1]
+            elif i == len(nums)-1:
+                ans[i] = prefProdFromLeft[i-1]
+            else:
+                ans[i] = prefProdFromLeft[i-1]*prefProdFromRight[i+1]
+        
+        return  ans
+        
