@@ -1,0 +1,80 @@
+#https://leetcode.com/problems/rotate-list/submissions/
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        
+        #Same LOGIC AS ROTATE ARRAY
+        
+        #Edge Cases
+        if k == 0 or head == None or head.next == None:
+            return head
+       
+       #Count the Len of the LL so that we dont need to do repeated iterations
+        curr = head
+        lenLL=0
+        while curr != None:
+            # print(curr.val)
+            lenLL +=1
+            curr= curr.next
+        
+        #to avoid repeed iterations bcz for n of 7 & k of 9 is equal to k of 2
+        k = k % lenLL
+        # print(k)
+        if k == 0:
+            return head
+        
+        #Reverse the LinkedList
+        curr=head
+        
+        prev = None
+        while curr!=None:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+            
+        #then reverse the 1st k elements and the last n-k elements
+        counter = 0
+        curr = prev
+
+        while counter < k:
+            curr = curr.next
+            counter +=1
+        
+        prevHead = prev
+        
+        newHeadPrev = curr
+        while True:
+            temp = prev.next
+            prev.next = newHeadPrev
+            newHeadPrev = prev
+            prev = temp
+            
+            if temp == curr:
+                break
+        
+        # Now sever the connection of 1st k nodes to the last n-k nodes
+        #Just previous of curr
+        prevCurr = newHeadPrev
+        while prevCurr.next != curr:
+            prevCurr= prevCurr.next
+        prevCurr.next = None
+        
+        #Reverse the last n-k nodes
+        prev2 = None
+        while curr:
+            temp = curr.next
+            curr.next = prev2
+            prev2 = curr
+            curr = temp
+        
+        #Join the 1st k nodes and last n-k nodes back together
+        prevCurr.next = prev2
+        
+        return newHeadPrev
+        
