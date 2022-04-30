@@ -1,0 +1,21 @@
+#https://leetcode.com/problems/reverse-words-in-a-string/
+
+import re
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        
+        #Spliting using re
+        tempSplit = re.split(" ",s)[::-1]
+        
+        #removing the extra spaces
+        tempSplit = [ element for element in tempSplit if element !=""]
+        
+        #Joining the list back
+        ans = " ".join(tempSplit)
+        
+        #removig the 1st and last spaces if present
+        if ans[0]==" ":
+            ans = ans[1:]
+        if ans[-1] == " ":
+            ans = ans[:-1]
+        return ans
