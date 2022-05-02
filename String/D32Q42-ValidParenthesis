@@ -1,0 +1,40 @@
+#https://leetcode.com/problems/valid-parentheses/
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        
+
+        stack = []
+        flag = True
+        openingBrackets=['(','[','{']
+        closingBrackets=[')',']','}']
+        
+        for element in s:
+     
+            if element in openingBrackets:
+                stack.append(element)
+            elif element in closingBrackets:
+                if len(stack) == 0:
+                    return False
+                elif len(stack)!=0:
+                    currPopped = stack.pop()
+                    if element == closingBrackets[0]:
+                        if currPopped != openingBrackets[0]:
+                            flag = False
+                            break
+                    if element == closingBrackets[1]:
+                        if currPopped != openingBrackets[1]:
+                            flag = False
+                            break
+                    if element == closingBrackets[2]:
+                        if currPopped != openingBrackets[2]:
+                            flag = False
+                            break
+        if len(stack)!=0:
+            return False
+        return flag
+            
+                        
+                    
+                    
+            
