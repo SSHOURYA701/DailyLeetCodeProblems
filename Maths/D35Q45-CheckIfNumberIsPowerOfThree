@@ -1,0 +1,12 @@
+#https://leetcode.com/problems/check-if-number-is-a-sum-of-powers-of-three/
+
+class Solution:
+    def checkPowersOfThree(self, n: int) -> bool:
+        
+        
+        #since the max value is 10^7 so the power value can g till 16
+        for i in range(15,-1,-1):
+            n-=3**i if n>=3**i else 0
+            # print(n,i)
+        return n==0
+        
