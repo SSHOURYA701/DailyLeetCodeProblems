@@ -1,0 +1,25 @@
+#https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+        result = []
+        self.utilLevelOrderBottom(root,0,result)
+        return result[::-1]
+        
+    def utilLevelOrderBottom(self,root,currHeight,result):
+
+            if root == None:
+                return
+            if len(result) <= currHeight:
+                result.append([])
+
+            result[currHeight].append(root.val)
+            self.utilLevelOrderBottom(root.left,currHeight+1,result)
+            self.utilLevelOrderBottom(root.right,currHeight+1,result)
