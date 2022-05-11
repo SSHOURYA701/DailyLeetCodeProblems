@@ -1,0 +1,36 @@
+#https://leetcode.com/problems/symmetric-tree/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if root == None:
+            return False
+        
+        return  self.utilIsSymmetric(root.left,root.right)
+        
+       
+    def utilIsSymmetric(self,left,right):
+        
+        if left == None and right == None:
+            return True
+        
+        if left == None or right == None:
+            return False
+        
+        if left.val !=right.val:
+            return False
+        else:
+            leftStatus = self.utilIsSymmetric(left.left,right.right)
+            rightStatus = self.utilIsSymmetric(left.right,right.left)
+        
+            return leftStatus and rightStatus
+        
+        
+        
+        
