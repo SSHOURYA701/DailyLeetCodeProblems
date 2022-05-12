@@ -1,0 +1,43 @@
+#https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
+#For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. 
+#The root of the tree is at (0, 0).
+
+#The vertical order traversal of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column 
+#and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        
+        result = dict()
+        
+        self.utilVerticalTraversal(root,result,0,0)
+        
+        #Need to sort the elements using Keys if nodes are in same row and same col
+        print(result)
+        
+        answer = defaultdict(list)
+        
+        for key in sorted(result.keys()):
+            answer[key[0]].extend(sorted(result[key]))
+            # print(key)
+        return list(answer.values())
+        
+        
+    def  utilVerticalTraversal(self,root,result,currHorizontalLevel,currVerticalLevel):
+        
+        if root== None:
+            return
+        if (currVerticalLevel,currHorizontalLevel) not in result.keys():
+            result[(currVerticalLevel,currHorizontalLevel)] = []
+        
+        result[(currVerticalLevel,currHorizontalLevel)].append(root.val)
+        
+        self.utilVerticalTraversal(root.left,result,currHorizontalLevel+1,currVerticalLevel-1)
+        self.utilVerticalTraversal(root.right,result,currHorizontalLevel+1,currVerticalLevel+1)        
