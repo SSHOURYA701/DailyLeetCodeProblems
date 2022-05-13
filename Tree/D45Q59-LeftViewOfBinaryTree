@@ -1,0 +1,32 @@
+#https://practice.geeksforgeeks.org/problems/left-view-of-binary-tree/1#
+
+# Node Class:
+class Node:
+    def _init_(self,val):
+        self.data = val
+        self.left = None
+        self.right = None
+'''
+
+def utilLeftView(root,result,currLevel):
+    
+    if root == None:
+        return
+    
+    result[currLevel].append(root.data)
+    
+    utilLeftView(root.left,result,currLevel+1)
+    utilLeftView(root.right,result,currLevel+1)
+    
+    
+#Function to return a list containing elements of left view of the binary tree.
+def LeftView(root):
+    
+    # code here
+    
+    result = defaultdict(list)
+    utilLeftView(root,result,0)
+    answer = [ result[key][0] for key in result.keys()]
+    
+    
+    return answer
