@@ -1,0 +1,32 @@
+#https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+
+from collections import defaultdict
+class Solution:
+    
+    #Function to return a list of nodes visible from the top view 
+    #from left to right in Binary Tree.
+    def topView(self,root):
+        
+        result = defaultdict()
+        
+        def utilTopView(root,result,currVerLevel,currHorLevel):
+            if root == None:
+                return
+            
+            if currVerLevel in result:
+                if currHorLevel <= result[currVerLevel][1]:
+                    result[currVerLevel] = [root.data,currHorLevel]
+            else:
+                result[currVerLevel] = [root.data,currHorLevel]
+                
+            utilTopView(root.left,result,currVerLevel-1,currHorLevel+1)
+            utilTopView(root.right,result,currVerLevel+1,currHorLevel+1)
+        
+       
+        
+        utilTopView(root,result,0,0)
+        
+        # print(result)
+        answer = [ result[elementKey][0] for elementKey in sorted(result.keys())]
+        
+        return answer
