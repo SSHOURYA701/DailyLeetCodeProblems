@@ -1,0 +1,30 @@
+https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1#
+
+class Solution:
+    
+  def bottomView(self, root):
+        # code here
+        result = defaultdict(list)
+        
+        def utilBottomView(root,result,currVerticalLevel,currHorizontalLevel):
+            if root == None:
+                return
+            
+            if currVerticalLevel in result.keys():
+                if currHorizontalLevel >= result[currVerticalLevel][1]:
+                    result[currVerticalLevel] = [root.data,currHorizontalLevel]
+            else:
+                result[currVerticalLevel] = [root.data,currHorizontalLevel]
+            
+            utilBottomView(root.left,result,currVerticalLevel-1,currHorizontalLevel+1)
+            utilBottomView(root.right,result,currVerticalLevel+1,currHorizontalLevel+1)
+        
+        
+        #as we go left currVertcialLevel goes -1 and of we go right we go +1
+        utilBottomView(root,result,0,0)
+        
+        # print(result)
+        #Sorting the keys bcz the vertical order needs to be in order like -1,0,1 etc
+        answer = [ result[key][0] for key in sorted(result.keys())]
+
+        return answer
