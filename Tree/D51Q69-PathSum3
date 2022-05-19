@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/path-sum-iii/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        
+        def dfs(root, prevSum, targetSum):
+            if not root:
+                return 
+            currSum = prevSum + root.val
+            if currSum - targetSum in rec:
+                self.count += rec[currSum - targetSum]
+            if currSum in rec:
+                rec[currSum] += 1
+            else:
+                rec[currSum] = 1
+            dfs(root.left, currSum, targetSum)
+            dfs(root.right, currSum, targetSum)
+            rec[currSum] -= 1
+            
+        self.count = 0
+        rec = {0:1}
+        dfs(root, 0, targetSum)
+        return self.count
