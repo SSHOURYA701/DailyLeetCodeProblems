@@ -1,0 +1,30 @@
+#https://leetcode.com/problems/palindromic-substrings/
+
+class Solution:    
+    def expandAndCountPallindromes(self, left, right, s):
+        length=len(s)
+        count=0
+        
+        while 0<=left and right<length and s[left]==s[right]:
+            left-=1
+            right+=1
+            count+=1
+        
+        return count
+        
+    def countSubstrings(self, s: str) -> int:
+        
+        answer = 0
+        for left in range(0,len(s)):
+            
+            evenCall = self.expandAndCountPallindromes(left,left,s)
+            oddCall =  self.expandAndCountPallindromes(left,left+1,s)
+            
+            answer +=evenCall 
+            answer +=oddCall
+        
+        return answer
+            
+        
+        # return sum(self.expandAndCountPallindromes(left,left,s) +self.expandAndCountPallindromes(left,left+1,s) for left in range(len(s)))
+        
