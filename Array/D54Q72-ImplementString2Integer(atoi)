@@ -1,0 +1,46 @@
+#https://leetcode.com/problems/string-to-integer-atoi/
+
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        
+        isPos = True
+        digitList=['1','2','3','4','5','6','7','8','9','0']
+        answer = 0
+        
+        index = 0
+        
+        while index < len(s) and s[index] == " ":
+            index +=1
+        
+        tempS = s[index:]
+        if len(tempS) == 0:
+            return 0
+            
+        if tempS[0] == "-":
+            isPos = False
+            tempS=tempS[1:]
+        elif tempS[0] =="+":
+            isPos = True
+            tempS=tempS[1:]
+        
+        for i in range(len(tempS)):
+            if answer == 0 and tempS[i] == '0':
+                i+=1
+            elif tempS[i] in digitList:
+
+                while i < len(tempS) and tempS[i] in digitList:
+                    answer = answer*10 + int(tempS[i])
+                    i +=1
+                break
+            elif tempS[i] not in digitList:
+                return answer
+                    
+        if isPos == False:
+            answer = -answer
+            if answer <-2**31:
+                answer = -2**31
+        else:
+            if answer>2**31-1:
+                answer = 2**31-1
+        
+        return answer
