@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/word-search/
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+    
+        rows, cols = len(board), len(board[0])
+        pathSet = set()
+        
+        def utilExist(row,col,wordIndex):
+            #if we find the end of word string then return True bcz in the 2nf if we are also compaing if the word char is matching with the board char or not so no need to maintain another currWord for return == True condition
+            if wordIndex == len(word):
+                return True
+            
+            #all the bases cases where we need to return False
+            if (row<0 or col<0 or row>=rows or col>=cols or word[wordIndex]!=board[row][col] or (row,col) in pathSet):
+                return False
+            
+            #need to insert the row,col in set
+            pathSet.add((row,col))
+            
+            #Traverse in all the 4 directions
+            output = utilExist(row+1,col,wordIndex+1) or utilExist(row-1,col,wordIndex+1) or utilExist(row,col+1,wordIndex+1) or utilExist(row,col-1,wordIndex+1)
+            pathSet.remove((row,col))
+            return output
+        
+        #Since the word can start from any tile in the board we need to call the util function from every tile
+        for row in range(rows):
+            for col in range(cols):
+                if utilExist(row,col,0):
+                    return True
+        return False
