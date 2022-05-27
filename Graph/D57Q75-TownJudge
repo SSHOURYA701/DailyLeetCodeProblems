@@ -1,0 +1,17 @@
+#https://leetcode.com/problems/find-the-town-judge/
+
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+
+        inDegreeDict=defaultdict(int)
+        outdegreeDict=defaultdict(int)
+        
+        for startNode,destinationNode in trust:
+            inDegreeDict[destinationNode]  +=1
+            outdegreeDict[startNode] +=1
+        
+        for node in range(1,n+1):
+            if (inDegreeDict[node] == n-1) and (node not in outdegreeDict):
+                return node
+        return -1
+        
