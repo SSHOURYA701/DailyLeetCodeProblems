@@ -1,0 +1,45 @@
+#https://leetcode.com/problems/max-area-of-island/
+
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        
+        
+        rows,cols=len(grid),len(grid[0])
+        answerArea = 0
+        for row in range(rows):
+            for col in range(cols):
+                
+                if grid[row][col] == 1:
+                    
+                    currArea = self.dfs(row,col,rows,cols,grid)
+                    answerArea = answerArea if answerArea>currArea else currArea
+                    # print(currArea,answerArea)
+        
+        return answerArea
+                    
+        
+    def dfs(self,row,col,rows,cols,grid):
+        
+        
+        grid[row][col] = 2
+        up,down,left,right=0,0,0,0
+        
+        #Up
+        if col-1>=0 and grid[row][col-1] == 1:
+            up = self.dfs(row,col-1,rows,cols,grid)
+        
+        #Down
+        if col+1<cols and grid[row][col+1] == 1:
+            down = self.dfs(row,col+1,rows,cols,grid)
+            
+        #left
+        if row-1>=0 and grid[row-1][col] == 1:
+            left = self.dfs(row-1,col,rows,cols,grid)
+            
+        #right
+        if row+1<rows and grid[row+1][col] == 1:
+            right = self.dfs(row+1,col,rows,cols,grid)
+        
+        
+        return 1 + up + down +left +right
+            
