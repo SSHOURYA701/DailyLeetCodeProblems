@@ -1,0 +1,39 @@
+#https://leetcode.com/problems/number-of-islands/
+
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        
+        rows,cols=len(grid),len(grid[0])
+        
+        def dfs(row,col):
+            
+            grid[row][col]="2"
+            
+            #Up
+            if col-1>=0 and grid[row][col-1] == "1":
+                dfs(row,col-1)
+            
+            #Down
+            if col+1<cols and grid[row][col+1] == "1":
+                dfs(row,col+1)
+                
+            #Left
+            if row-1>=0 and grid[row-1][col] == "1":
+                dfs(row-1,col)
+                
+            #right
+            if row+1<rows and grid[row+1][col] == "1":
+                dfs(row+1,col)
+        
+        
+        answer = 0
+        for row in range(rows):
+            for col in range(cols):
+                # print(row,col,grid[row][col])
+                if grid[row][col] == "1":
+                    # print(1)
+                    answer+=1
+                    dfs(row,col)
+                    
+        return answer
+        
