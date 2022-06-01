@@ -23,7 +23,8 @@ class Solution:
         
         if (row == 0) or (row ==rows-1) or (col ==0) or (col == cols-1):
             return False
-        #this condition needs to be below the base case
+        #this condition needs to be below the base case if we mark that as visited 
+        #in the grid array itself then 0 connected to that perimeter 0 will become a closed island as the perm 0 is no longer 0.
         grid[row][col] = 2
         
         up,down,left,right = True , True,True,True
