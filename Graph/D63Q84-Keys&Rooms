@@ -1,0 +1,24 @@
+#https://leetcode.com/problems/keys-and-rooms/
+
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        
+        vis = [0 for i in range(len(rooms))]
+        Queue = []
+        #0 is the curr room number
+        Queue.append(0)
+        
+        # print(Queue)
+        while Queue:
+            
+            currRoom = Queue.pop()
+            vis[currRoom] = 1
+            
+            #Check which room keys are there
+            for roomKey in rooms[currRoom]:
+                if vis[roomKey] ==0:
+                    Queue.append(roomKey)
+            
+        if 0 in vis:
+            return False
+        else: return True
