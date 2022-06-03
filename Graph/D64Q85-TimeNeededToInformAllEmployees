@@ -1,0 +1,28 @@
+#https://leetcode.com/problems/time-needed-to-inform-all-employees/
+
+class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        
+        vis = [0]*(len(manager))
+        
+        
+        graphDict=defaultdict(list)
+        
+        #employee manager relationship i.e a 
+        for i, v in enumerate(manager) :
+            graphDict[v].append(i)
+            
+        def dfs(empID):  
+            time = 0 
+            
+            for employee in graphDict[empID]:
+                #Max because an employee can have multiple employees who may or may not be manager to others so max is taken
+                time = max(time,dfs(employee)+informTime[empID])
+            
+            return time
+        
+        answer = dfs(headID)
+        
+        return answer
+        
+    
