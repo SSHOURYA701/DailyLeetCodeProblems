@@ -1,0 +1,35 @@
+#https://leetcode.com/problems/course-schedule/
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
+        
+        graphDict = defaultdict(list)
+        for [a,b] in prerequisites:
+            graphDict[b].append(a)
+        
+        vis=[0]*numCourses
+        # isCycle = False
+        for i in range(numCourses):
+            prev = -1
+            if vis[i]==0:
+                if self.cycleDFS(i,prev,vis,graphDict):
+                    return False
+        
+        return True
+    
+    def cycleDFS(self,currNode,prevNode,vis,graphDict):
+        
+        vis[currNode] = 1
+        
+        for adjacent in graphDict[currNode]:
+            
+            if vis[adjacent] == 0 and self.cycleDFS(adjacent,currNode,vis,graphDict) == True:
+                return True
+            elif vis[adjacent] == 1:
+                return True
+        vis[currNode] = 2
+        return False
+                
+                
+            
