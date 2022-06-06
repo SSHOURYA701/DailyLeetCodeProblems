@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/is-graph-bipartite/
+
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        
+        n = len(graph)
+        color = [-1]*n
+        
+        for currNode in range(n):
+            if color[currNode] == -1:
+                if self.checkDFS(currNode,graph,color) == False:
+                    return False
+            
+        return True
+            
+    
+    def checkDFS(self,currNode,graph,color):
+        
+        #marking the node as visited and coloring it with 1
+        if color[currNode] == -1:
+            color[currNode] = 1
+        
+        for adj in graph[currNode]:
+            if color[adj] == -1:
+                color[adj] = 1-color[currNode]
+                if self.checkDFS(adj,graph,color) == False:
+                    return False
+            elif color[adj] == color[currNode]:
+                return False
+        
+        return True
