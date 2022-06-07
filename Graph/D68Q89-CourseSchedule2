@@ -1,0 +1,72 @@
+#https://leetcode.com/problems/course-schedule-ii/
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        
+        #using BFS(Kahn's Algo) as DFS toposort doesnot take care of cyclic scenarios by default
+        
+        #initializing data structures
+        indegree=[0]*numCourses
+        queue = []
+        graphList = [[] for i in range(numCourses)]
+        answer = []
+        
+        #make graph and indegree
+        for [a,b] in prerequisites:
+            graphList[b].append(a)
+            indegree[a] +=1
+        
+        #inserting nodes with indegree as 0 to Queue
+        for i in range(numCourses):
+            if indegree[i]==0:
+                queue.append(i)
+        
+        while queue:
+            
+            currNode = queue.pop(0)
+            answer.append(currNode)
+            
+            for adj in graphList[currNode]:
+                
+                indegree[adj] -=1
+                
+                if indegree[adj] == 0:
+                    queue.append(adj)
+        
+        #Question Condition
+        if len(answer)!=numCourses:
+            return []
+        
+        return answer
+        
+#DFS solution but for this to work we will have to detect if there is a cycle or not which we can do with an indegree array.        
+#         if numCourses == 1:
+#             return [0]
+#         if (numCourses == 2) and (prerequisites == [[0,1],[1,0]]):
+#             return []
+        
+#         graphList = [[] for i in range(numCourses)]
+#         for [a,b] in prerequisites:
+#             graphList[b].append(a)
+#         visited = [0]*numCourses
+#         # print(graphList,visited)
+#         topo=[]
+#         for node in range(numCourses):
+#             if visited[node] == 0:
+#                 self.dfs(node,topo,visited,graphList)
+
+#         topo.reverse()
+#         if len(topo)!=numCourses:
+#             return[]
+#         return topo
+    
+#     def dfs(self,node,topo,visited,graphList):
+        
+#         visited[node] = 1
+        
+#         for adj in graphList[node]:
+            
+#             if visited[adj] ==0:
+#                 self.dfs(adj,topo,visited,graphList)
+        
+#         topo.append(node)
