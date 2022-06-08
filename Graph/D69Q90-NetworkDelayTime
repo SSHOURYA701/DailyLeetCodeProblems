@@ -1,0 +1,103 @@
+#https://leetcode.com/problems/network-delay-time/
+
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        
+        #Dijsktra Algo
+        
+        #Making GraphList
+        graphList = [[] for i in range(n+1)]
+        for info in times:
+            #info[1] in the destination and info[2] is the wt value
+            graphList[info[0]].append((info[1],info[2]))
+        
+        #distance array
+        dist = [float('inf')]*(n+1)
+        
+        #make src dist as 0
+        dist[k] = 0
+        
+        #making a min heap and appending src
+        minheap = []
+        minheap.append((0,k))#1st value is wt and 2nd is node
+        
+        while minheap:
+            #poping the current smallest node in the heap
+            currTime,currNode = heapq.heappop(minheap)
+            
+            #traversing its adjacents
+            for adjNode in graphList[currNode]:
+                
+                #if the dist of adj is large then the current dist taken to reach adj them update dist of adj
+                if dist[adjNode[0]] > dist[currNode] + adjNode[1]:
+                    dist[adjNode[0]] = dist[currNode] + adjNode[1]
+                    heapq.heappush(minheap,(dist[adjNode[0]],adjNode[0]))
+                    
+        
+        # print(dist)
+        #checking if we were able to reach all nodes or not
+        for i in range(1,n+1):
+            # print(dist[i])
+            if dist[i] == float('inf'):
+                return -1
+        
+        return max(dist[1:])
+        
+
+#         #ShortestPath in a wted DAG
+        
+#         #Step1 is a toposort either using BFS or DFS
+        
+#         topoStack = []
+#         #1 based indexing
+#         dist = [float('inf')]*(n+1)    
+#         vis = [0]*(n+1)
+        
+#         #Making GraphList
+#         graphList = [[] for i in range(n+1)]
+#         for info in times:
+#             #info[1] in the destination and info[2] is the wt value
+#             graphList[info[0]].append((info[1],info[2]))
+          
+#         # print(graphList)
+#         for node in range(1,n+1):
+#             if vis[node] == 0:
+#                 self.topologicalSortDFS(node,topoStack,vis,graphList)
+        
+#         #topoStack contains the topoSort
+#         # print(topoStack)
+        
+#         src = k
+        
+#         #make src dost as 0
+#         dist[src] = 0
+        
+#         #pop the elements from toposort and update the wts of their adjacent nodes 
+#         while topoStack:
+            
+#             currNode = topoStack.pop()
+            
+#             if dist[currNode] !=float('inf'):
+                
+#                 for adj in graphList[currNode]:
+#                     if dist[adj[0]] > dist[currNode] +adj[1]:
+#                         dist[adj[0]] = dist[currNode] +adj[1]
+            
+#         # print(dist)
+        
+#         for i in range(1,n+1):
+#             # print(dist[i])
+#             if dist[i] == float('inf'):
+#                 return -1
+        
+#         return max(dist[1:])
+                
+#     def topologicalSortDFS(self,currNode,topoStack,vis,graphList):
+        
+#         vis[currNode] = 1
+        
+#         for adj in graphList[currNode]:
+#             if vis[adj[0]] == 0:
+#                 self.topologicalSortDFS(adj[0],topoStack,vis,graphList)
+        
+#         topoStack.append(currNode)      
