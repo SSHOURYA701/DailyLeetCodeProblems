@@ -1,0 +1,38 @@
+#https://leetcode.com/problems/path-with-maximum-probability/
+
+class Solution:
+    def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], start: int, end: int) -> float:
+        
+        #making distance array
+        dist=[float('-inf')]*n
+        dist[start] = 1
+        
+        #making graphList
+        graphList=[[] for i in range(n)]
+        for i in range(len(edges)):
+            # print(i)
+            graphList[edges[i][0]].append((edges[i][1],succProb[i]))
+            graphList[edges[i][1]].append((edges[i][0],succProb[i]))
+            
+        # print(graphList)
+        
+        #making maxheap
+        minheap=[]
+        heapq.heappush(minheap,(-1,start))
+        
+        while minheap:
+            currProb,currNode = heapq.heappop(minheap)
+            
+            for adjNode in graphList[currNode]:
+                # print(adjNode)
+                if dist[adjNode[0]] < dist[currNode]*adjNode[1]:
+                    dist[adjNode[0]] = dist[currNode]*adjNode[1]
+                    heapq.heappush(minheap,(-1*dist[adjNode[0]],adjNode[0]))
+                    
+        
+        # print("ehe")
+        
+        if dist[end] == float('-inf'):
+            return 0
+        else:
+            return dist[end]
