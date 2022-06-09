@@ -1,0 +1,33 @@
+#https://leetcode.com/problems/shortest-path-in-binary-matrix/
+
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        if rows == 1 and cols == 1:
+            return 1 if not grid[0][0] else -1
+        
+        if grid[0][0] or grid[rows - 1][cols - 1]:
+            return -1
+        
+        directions = ((1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1))
+        Queue = []
+        Queue.append((0,0,1))
+        
+        while Queue:
+            row, col, pathLength = Queue.pop(0)
+            
+            for di, dj in directions:
+                newRow, newCol = row + di, col + dj
+                if newRow == rows - 1 and newCol == cols - 1:
+                    return pathLength + 1
+                
+                if newRow == -1 or newRow == rows or newCol == -1 or newCol == cols or grid[newRow][newCol]:
+                    continue
+                
+                grid[newRow][newCol] = 1
+                Queue.append((newRow, newCol, pathLength + 1))
+        
+        return -1
+            
+            
+                
