@@ -1,0 +1,46 @@
+#https://leetcode.com/problems/employee-importance/
+
+"""
+# Definition for Employee.
+class Employee:
+    def __init__(self, id: int, importance: int, subordinates: List[int]):
+        self.id = id
+        self.importance = importance
+        self.subordinates = subordinates
+"""
+
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        
+        #Given ->> employee CLASS which has id, imp and subordinates
+        #Task ->> for a given id calculate the imp of the employee with th given id alogn with all of its employees.
+        
+        visited = set()
+        
+        queue = []
+        
+        for i in range(len(employees)):
+            if employees[i].id == id:
+                queue.append(employees[i])
+        
+        answerImp = 0
+        while queue:
+            
+            currEmployee = queue.pop(0)
+            
+            #mark the employee as visited using it's id
+            visited.add(currEmployee.id)
+            
+            answerImp += currEmployee.importance
+            
+            for subordinateEmpID in currEmployee.subordinates:
+                
+                if subordinateEmpID not in visited:
+                    for i in range((len(employees))):
+                        if employees[i].id == subordinateEmpID:
+                            queue.append(employees[i])
+        
+        
+        return answerImp
+        
+        
