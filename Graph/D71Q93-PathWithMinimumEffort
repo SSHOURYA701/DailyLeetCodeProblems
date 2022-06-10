@@ -1,0 +1,68 @@
+#https://leetcode.com/problems/path-with-minimum-effort/
+
+# class Solution:
+#     def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        
+#         # print(heights)
+#         rows,cols = len(heights),len(heights[0])
+#         #because we can traverse in 4 directions
+#         directions= [(0,-1),(0,1),(-1,0),(1,0)]
+        
+#         #making a dist column
+#         dist = [[0 for i in range(cols)] for i in range(rows)]
+        
+#         minHeap = []
+        
+#         #1st is diff with the adj, 2nd is row and 3rd is col 
+#         start = (0,0,0)
+        
+        
+#         minHeap.append(start)
+        
+#         while minHeap:
+#             currCord = heapq.heappop(minHeap)
+#             row,col,cost = currCord[1],currCord[2],currCord[0]
+            
+#             if row == rows-1 and col == cols-1:
+                    
+#                     return cost
+            
+#             for drow,dcol in directions:
+                
+#                 newRow = row+drow
+#                 newCol = col+dcol
+                
+#                 if newRow ==-1 or newCol ==-1 or newRow==rows or newCol == cols:
+#                     continue
+                    
+#                 currCost = max(cost,abs(heights[row][col]-heights[newRow][newCol]))
+                
+#                 if currCost < dist[newRow][newCol]:
+#                     dist[newRow][newCol] = currCost
+                    
+#                     heapq.heappush(minHeap,(currCost,newRow,newCol))
+                
+                
+#         return 0
+
+class Solution(object):
+    def minimumEffortPath(self, heights):
+        m, n = len(heights), len(heights[0])
+        dist = [[math.inf] * n for _ in range(m)]
+        dist[0][0] = 0
+        minHeap = [(0, 0, 0)] # distance, row, col
+        DIR = [0, 1, 0, -1, 0]
+
+        while minHeap:
+            d, r, c = heappop(minHeap)
+            if d > dist[r][c]: continue  # this is an outdated version -> skip it
+            if r == m - 1 and c == n - 1:
+                return d  # Reach to bottom right
+            
+            for i in range(4):
+                nr, nc = r + DIR[i], c + DIR[i+1]
+                if 0 <= nr < m and 0 <= nc < n:
+                    newDist = max(d, abs(heights[nr][nc] - heights[r][c]))
+                    if dist[nr][nc] > newDist:
+                        dist[nr][nc] = newDist
+                        heappush(minHeap, (dist[nr][nc], nr, nc))
