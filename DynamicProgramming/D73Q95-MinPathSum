@@ -1,0 +1,41 @@
+#https://leetcode.com/problems/minimum-path-sum/
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        
+        if len(grid) == 1 and len(grid[0]) == 1:
+            return grid[0][0]
+        startRow,startCol =0,0
+        
+        #2directions
+        directions = [(1,0),(0,1)]
+        
+        dp = [[-1 for i in range(len(grid[0]))]for i in range(len(grid))]
+        
+        answer = self.util(startRow,startCol,grid,directions,dp)
+
+        return dp[startRow][startCol] + grid[startRow][startCol]
+        
+        
+    def util(self,row,col,grid,directions,dp):
+        
+        if (row == len(grid)-1) and (col == len(grid[0])-1):
+            return 0
+        
+        if dp[row][col] !=-1:
+            return dp[row][col]
+        
+        mini = float('inf')
+        
+        for drow,dcol in directions:
+            
+            newRow,newCol = row + drow,col+dcol
+            
+            if 0<= newRow < len(grid) and (0<=newCol<len(grid[0])):
+                dirCost = grid[newRow][newCol] + self.util(newRow,newCol,grid,directions,dp)
+                
+                mini = min(mini,dirCost)
+        
+        dp[row][col] = mini
+        
+        return dp[row][col] 
