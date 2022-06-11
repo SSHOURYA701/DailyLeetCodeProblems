@@ -1,0 +1,33 @@
+#https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/
+
+class Solution:
+    def countPaths(self, n: int, roads: List[List[int]]) -> int:
+        
+        #makingGraph
+        graphList =[[] for i in range(n)]
+        for src,dest,time in roads:
+            graphList[src].append([dest,time])
+            graphList[dest].append([src,time])
+            
+        dist = [float('inf') for i in range(n)]
+        minHeap=[(0,0)]
+        dist[0] = 0
+        #to count the number of ways we reach every node
+        dp=[0 for i in range(n)]
+        dp[0]=1
+        while minHeap:
+            time,node = heapq.heappop(minHeap)
+            if time > dist[node]:
+                continue
+            for adj,adjTime in graphList[node]:
+                
+                if dist[adj] > dist[node] + adjTime:
+                    dist[adj] = dist[node] +adjTime
+                    dp[adj]=dp[node]#because we are taking the same path will a lower min cost
+                    heapq.heappush(minHeap,(dist[adj],adj))
+                #if we are reaching the same node with the same shortest path then we need to add the paths 
+                elif dist[adj] == (dist[node]+adjTime):
+                    dp[adj]=(dp[adj]+dp[node]) % 1_000_000_007
+                    #bcz the number of paths to reach adj will also include the paths we need to reach node as we have found a new path with the shortest dist
+        
+        return dp[n-1]
