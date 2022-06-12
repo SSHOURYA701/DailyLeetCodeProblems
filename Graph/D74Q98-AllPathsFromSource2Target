@@ -1,0 +1,34 @@
+#https://leetcode.com/problems/all-paths-from-source-to-target/
+
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        
+        
+        answer =[]
+        start = 0
+        end = 0
+        for edges in graph:
+            
+            if len(edges)!=0:
+                end = max(end,max(edges))
+        # print(end)
+        
+        self.util(start,end,graph,answer,[])
+        
+        return answer
+    
+    
+    def util(self,node,end,graph,answer,currPath):
+        
+        if node == end:
+            currPath.append(node)
+            answer.append(currPath.copy())
+            currPath.pop()
+            return 
+            
+        currPath.append(node)
+        for adj in graph[node]:
+            
+            self.util(adj,end,graph,answer,currPath)
+        
+        currPath.pop()
