@@ -1,0 +1,49 @@
+#https://leetcode.com/problems/triangle/
+
+class Solution:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        
+        startRow,startInd=0,0
+        # print(triangle[0][0])
+        dp = [[-1 for j in range(i)] for i in range(len(triangle)+1)]
+        dp=dp[1:]
+        # print(dp)
+        answer = self.util(startRow,startInd,triangle,[0,1],dp)
+        print(dp)
+        return answer
+    
+    def util(self,row,lastInd,triangle,directionsList,dp):
+        
+        if dp[row][lastInd]!=-1:
+            return dp[row][lastInd]
+        
+        if row == len(triangle)-1:
+            # for i in range(len(triangle[row])):
+            mini=float('inf')
+            for dInd in directionsList:
+                
+                newInd = lastInd + dInd
+                
+                if newInd < len(triangle[row]):
+                    
+                    mini=min(mini,triangle[row][newInd])
+            
+            dp[row][lastInd] = mini
+            return dp[row][lastInd]
+        
+        mini = float('inf')
+        
+        for dInd in directionsList:
+            
+            newInd = lastInd +dInd
+            
+            if newInd < len(triangle[row]):
+                
+                recCall = triangle[row][newInd] + self.util(row+1,newInd,triangle,directionsList,dp)
+                
+                mini = min(mini,recCall)
+        
+        dp[row][lastInd] = mini
+        return dp[row][lastInd]
+        
+                
