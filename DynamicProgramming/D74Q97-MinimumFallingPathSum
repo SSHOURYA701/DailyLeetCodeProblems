@@ -1,0 +1,45 @@
+#https://leetcode.com/problems/minimum-falling-path-sum/
+
+class Solution:
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        
+        # print(len(matrix),len(matrix[0]))
+        if len(matrix) == 1 and len(matrix[0]) ==1:
+            return matrix[0][0]
+        
+        answer = float('inf')
+        directions =[(1,-1),(1,0),(1,1)]
+        dp = [[-1 for i in range(len(matrix[0]))] for i in range(len(matrix))]
+        for i in range(len(matrix[0])):
+            currMin = matrix[0][i]+self.util(0,i,matrix,directions,dp)
+            answer = min(answer,currMin)
+            
+        return answer
+    
+    
+    def util(self,row,col,matrix,directions,dp):
+        
+        if dp[row][col] != -1:
+            return dp[row][col]
+        
+        if row == len(matrix)-2:
+            
+            mini = float('inf')
+            for drow,dcol in directions:
+                newRow,newCol = row + drow,col + dcol
+                if 0<=newRow<len(matrix) and 0<= newCol<len(matrix[0]):
+                    mini = min(mini,matrix[newRow][newCol])
+                    
+            return mini
+    
+        mini = float('inf')
+        
+        for drow,dcol in directions:
+            newRow,newCol = row + drow,col + dcol
+
+            if 0<=newRow<len(matrix) and 0<= newCol<len(matrix[0]):
+                
+                currPath = matrix[newRow][newCol] + self.util(newRow,newCol,matrix,directions,dp)
+                mini = min(mini,currPath)
+        dp[row][col] = mini
+        return dp[row][col]
