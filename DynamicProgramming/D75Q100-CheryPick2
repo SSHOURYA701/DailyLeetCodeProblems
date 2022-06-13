@@ -1,0 +1,51 @@
+#https://leetcode.com/problems/cherry-pickup-ii/
+
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        
+        rows,cols=len(grid),len(grid[0])
+        directions = [-1,0,1]
+        dp = [[[-1 for i in range(cols)] for i in range(cols)]for i in range(rows)]
+        answer = self.util(0,0,cols-1,grid,rows,cols,directions,dp)
+        
+        return answer
+    
+    def util(self,row,col1,col2,grid,rows,cols,directions,dp):
+        
+        #out of bound base cases
+        if col1 == -1 or col1==cols or col2 == -1 or col2==cols:
+            return 0
+        
+        if dp[row][col1][col2] != -1:
+            return dp[row][col1][col2]
+        
+        #destination base case
+        if row == rows-1:
+            #same cell
+            if col1==col2 :
+                return grid[row][col1]
+            #not same cell
+            else:
+                return grid[row][col1] +grid[row][col2]
+            
+        maxi = 0 
+        #since row will always be same and cols of the 2 robots will differ
+        for c1 in directions:
+            for c2 in directions:
+                
+                #same cell
+                if col1==col2:
+                    
+                    curr = grid[row][col1] + self.util(row+1,col1+c1,col2+c2,grid,rows,cols,directions,dp)
+                #not same cell
+                else:
+                    curr = grid[row][col1] + grid[row][col2] + self.util(row+1,col1+c1,col2+c2,grid,rows,cols,directions,dp)
+                    
+                maxi = max(curr,maxi)
+                dp[row][col1][col2] = maxi
+        
+        return dp[row][col1][col2]
+                    
+                    
+        
+        
