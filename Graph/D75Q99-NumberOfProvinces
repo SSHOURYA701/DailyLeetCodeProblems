@@ -1,0 +1,34 @@
+#https://leetcode.com/problems/number-of-provinces/
+
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        
+        graphList=[[] for i in range(len(isConnected))]
+        # print(graphList)
+        
+        for row in range(len(isConnected)):
+            for col in range(len(isConnected)):
+                if isConnected[row][col]==1 and (row != col) :
+                    # print(row,col)
+                    if col not in graphList[row]:
+                        graphList[row].append(col)
+                    if row not in graphList[col]:
+                        graphList[col].append(row)
+        
+        # print(graphList)
+        visited = [0 for i in range(len(isConnected))]
+        answer = 0
+        for node in range(len(isConnected)):
+            if visited[node] == 0:
+                answer +=1
+                self.util(node,graphList,visited)
+        
+        return answer
+    
+    
+    def util(self,node,graphList,visited):
+        
+        visited[node] = 1
+        for adj in graphList[node]:
+            if visited[adj]==0:
+                self.util(adj,graphList,visited)
