@@ -1,0 +1,36 @@
+#https://leetcode.com/problems/target-sum/
+
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        
+        #here it is a 2D DP question as the states of each index can have many combination of expressions
+        totalSum =sum(nums)
+        
+
+        dp= [[float('-inf') for i in range(2*totalSum+1)] for i in range(len(nums))]
+        answer = self.util(0,nums,target,0,dp)
+        # print(dp)
+        return answer
+        
+        
+    def util(self,currInd,nums,target,currSum,dp):
+        
+        if currInd == len(nums):
+            if currSum == target:
+                return 1
+            else:
+                return 0 
+        
+        if dp[currInd][currSum] !=float(-inf):
+            return dp[currInd][currSum]
+        
+        #add the number in expression
+        positive = self.util(currInd+1,nums,target,currSum+nums[currInd],dp)
+        
+        #subtract the number in expression
+        negative = self.util(currInd+1,nums,target,currSum-nums[currInd],dp)
+        dp[currInd][currSum] = positive + negative
+        
+        return dp[currInd][currSum]
+        
+        
