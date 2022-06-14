@@ -1,0 +1,94 @@
+#https://leetcode.com/problems/partition-equal-subset-sum/
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        
+        #since we need 2 subset. so the sum of set 1 == sum of set 2 == sum(nums)/2. 
+        #So the problem boils down to subet set sum with a target. 
+        #i.e find a subset with sum s/2
+        
+        #bcz if sum of nums is odd then partition in equal division is not possible
+        if sum(nums)%2!=0:
+            return False
+        
+        target = int(sum(nums)/2)
+        dp = [[-1 for i in range(sum(nums)+1)]for i in range(len(nums)+1)]
+        answer = self.util(0,0,target,nums,dp)
+        
+        return answer
+    
+    def util(self,index,currSum,target,nums,dp):
+        
+        if index == len(nums)-1:
+            if currSum == target:
+                return True
+            elif (currSum + nums[index]) == target:
+                return True
+            else:
+                return False
+        
+        if dp[index][currSum] !=-1:
+            return dp[index][currSum]
+        
+        take = self.util(index+1,currSum+nums[index],target,nums,dp)
+        
+        notTake = self.util(index+1,currSum,target,nums,dp)
+        
+        dp[index][currSum] = take or notTake
+        
+        return dp[index][currSum]
+    
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        #MEMORY LIMIT EXEEDED FOR LARGE INPUTS
+#         #3D dp bcz there are 3 variables i.e index, sum of set 1 and sum of set2
+#         dp = [[[-1 for i in range((sum(nums)//2)+1)] for i in range((sum(nums)//2)+1)]for i in range(len(nums))]
+        
+#         answer = self.util(0,0,0,nums,dp)
+        
+#         return answer
+    
+#     def util(self,index,sum1,sum2,nums,dp):
+        
+#         #base cases for destination
+#         if index == len(nums)-1:
+#             if (sum1 + nums[index]) == sum2:
+#                 return True
+#             elif sum1 == (sum2 + nums[index]):
+#                 return True
+#             else:
+#                 return False
+            
+#         if dp[index][sum1][sum2] !=-1:
+#             return dp[index][sum1][sum2]
+            
+#         #Explore All Paths
+        
+#         path1 = self.util(index+1,sum1+nums[index],sum2,nums,dp)
+        
+#         path2 = self.util(index+1,sum1,sum2+nums[index],nums,dp)
+        
+#         dp[index][sum1][sum2] = path1 or path2
+#         return dp[index][sum1][sum2]
+        
+        
+        
+            
+            
