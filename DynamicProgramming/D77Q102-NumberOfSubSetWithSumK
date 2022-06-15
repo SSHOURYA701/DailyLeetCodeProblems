@@ -1,0 +1,29 @@
+#https://www.codingninjas.com/codestudio/problems/number-of-subsets_3952532?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=1
+
+from typing import List
+
+def util(index,currSum,nums,target,dp):
+    
+    if index == len(nums)-1:
+#         print(currSum,target)
+        if currSum + nums[index] == target:
+#             print(11111)
+            return 1
+        elif currSum == target:
+            return 1
+        else:
+            return 0
+    if dp[index][currSum] != -1:
+        return dp[index][currSum]
+    pick = util(index+1,currSum+nums[index],nums,target,dp)
+    
+    notPick = util(index+1,currSum,nums,target,dp)
+#     print(pick,notPick)
+    dp[index][currSum] = pick + notPick
+    return dp[index][currSum]
+def findWays(num: List[int], tar: int) -> int:
+    # Write your code here.
+    dp = [[-1 for i in range(sum(num))] for i in range(len(num))]
+    answer = util(0,0,num,tar,dp)
+    return answer
+    pass
