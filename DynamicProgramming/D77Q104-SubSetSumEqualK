@@ -1,0 +1,44 @@
+#https://www.codingninjas.com/codestudio/problems/subset-sum-equal-to-k_1550954?leftPanelTab=0
+
+def subsetSumToK(n, k, arr):
+
+    # Write your code here
+    # Return a boolean variable 'True' or 'False' denoting the answer
+    
+    def util(ind,currSum,arr,k,dp):
+        
+        if ind == len(arr)-1:
+            if currSum + arr[ind] == k:
+                dp[ind][currSum+arr[ind]] = True
+                return dp[ind][currSum+arr[ind]]
+            elif currSum == k:
+                dp[ind][currSum] = True
+                return dp[ind][currSum]
+            else: 
+                dp[ind][currSum] = False
+                dp[ind][currSum+arr[ind]] = False
+                return False
+        
+        if dp[ind][currSum] !=-1:
+            return dp[ind][currSum]
+        
+        pick = util(ind+1,currSum+arr[ind],arr,k,dp)
+        
+        notpick = util(ind+1,currSum,arr,k,dp)
+        
+        dp[ind][currSum] = pick or notpick
+        
+        return dp[ind][currSum]
+    
+    
+    dp = [[-1 for i in range(sum(arr)+1)] for i in range(len(arr))]
+    answer = util(0,0,arr,k,dp)
+#     print("N is ",n,"and max sum value can go till",sum(arr))
+#     print(dp)
+    return answer
+    pass
+    
+    
+    
+
+
