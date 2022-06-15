@@ -23,6 +23,9 @@ class Solution:
         for s in sums1:
             remain=goal-s
 			# binary search for the value in s2 that's closest to the remaining value
+			            #closest can be on either side of the returned index
+            # i2 is the index of smallest element greater than remain
+            #i2-1 is the index of largest element smaller than remain
             i2=bisect_left(s2,remain)
             if i2<len(s2):
                 ans=min(ans,abs(remain-s2[i2]))
