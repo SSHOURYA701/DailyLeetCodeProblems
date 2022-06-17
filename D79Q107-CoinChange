@@ -1,0 +1,42 @@
+#https://leetcode.com/problems/coin-change/
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        if amount ==0:
+            return 0
+        dp = [[-1 for i in range(amount+1)]for i in range(len(coins))]
+        answer = self.util(len(coins)-1,amount,coins,dp)
+        
+        if answer == float('inf') or answer ==1e9:
+            return -1
+        return int(answer)
+    
+    def util(self,index,amount,coins,dp):
+        
+        if index == 0:
+            #if the remianing target can be made up with the last coin
+            if amount % coins[index] == 0:
+                return amount / coins[index]
+            else:
+                return 1e9
+        
+        if dp[index][amount] != -1:
+            return dp[index][amount]
+        
+        #not takinh the current so no coins added
+        notTake = 0 + self.util(index - 1,amount,coins,dp)
+        
+        #Taking the current
+        take = float('inf')
+        
+        #we willl only take if the amount of curr coin is less than equal to remaining amount
+        if coins[index] <= amount:
+            take = 1 + self.util(index,amount - coins[index],coins,dp)
+        
+        dp[index][amount] = min(notTake,take)
+        return dp[index][amount]
+                
+            
+            
+        
+        
