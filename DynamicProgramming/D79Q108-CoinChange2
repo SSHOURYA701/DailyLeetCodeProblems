@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/coin-change-2/
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        
+        dp=[[-1 for i in range(amount+1)] for i in range(len(coins))]
+        answer = self.util(len(coins)-1,amount,coins,dp)
+        
+        return answer
+    
+    
+    def util(self,index,amount,coins,dp):
+        
+        if index == 0:
+            if amount %coins[index] ==0:
+                return 1
+            else: 
+                return 0
+        
+        if dp[index][amount] !=-1:
+            return dp[index][amount]
+        
+        notTake = self.util(index-1,amount,coins,dp)
+        
+        take = 0
+        
+        if coins[index] <= amount:
+            take = self.util(index,amount-coins[index],coins,dp)
+        
+        dp[index][amount] = notTake + take
+        return dp[index][amount]
