@@ -1,0 +1,51 @@
+#
+
+from sys import stdin
+import sys
+
+#Wherever wew want to cut using index we +1 bcz we cannot cut using 0
+def util(index,n,price,dp):
+    
+    if index ==0:
+        if n%(index+1) == 0:
+            return n/(index+1) * price[index]
+        else:
+            return 0
+    
+    #bcz cutting will be index+1(bcz we cannot cut using 0 index)
+    if dp[index+1][n] !=-1:
+        return dp[index+1][n]
+    
+    notCut = 0 + util(index-1,n,price,dp)
+    
+    cut = 0
+    if index+1 <= n:
+        cut = price[index] + util(index,n-(index+1),price,dp)
+    
+    dp[index+1][n] = max(cut,notCut)
+    return dp[index+1][n]
+
+def cutRod(price, n):
+    
+    dp = [[-1 for i in range(n+1)] for i in range(n+1)]
+    answer = util(n-1,n,price,dp)
+    return int(answer)
+    # Write your code here.
+    pass
+
+# Taking input using fast I/O.
+def takeInput():
+    n = int(input())
+
+    price = list(map(int, input().strip().split(" ")))
+
+    return price, n
+
+
+# Main.
+t = int(input())
+while t:
+    price, n = takeInput()
+    print(cutRod(price, n))
+    t = t-1
+
