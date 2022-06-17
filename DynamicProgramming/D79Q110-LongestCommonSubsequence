@@ -39,9 +39,8 @@ class Solution:
             same = 1 + self.util(i+1,j+1,text1,text2,dp)
         else:
             notSame1 = self.util(i,j+1,text1,text2,dp)
-            notSame2 = self.util(i+1,j+1,text1,text2,dp)
-            notSame3 = self.util(i+1,j,text1,text2,dp)
-            notSame = max(notSame1,max(notSame2,notSame3))
+            notSame2 = self.util(i+1,j,text1,text2,dp)
+            notSame = max(notSame1,notSame2)
         
         dp[i][j] = max(same,notSame)
         return dp[i][j]
