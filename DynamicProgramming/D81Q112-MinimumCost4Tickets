@@ -1,0 +1,42 @@
+#https://leetcode.com/problems/minimum-cost-for-tickets/
+
+class Solution:
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        
+        #dp array for number of days in a year
+        dp = [-1 for i in range(366 +1)]
+        answer = self.util(0,days,costs,dp)
+        
+        return answer
+    
+    
+    def util(self,index,days,costs,dp):
+        
+        if index >= len(days):
+            return 0
+        
+        if dp[index] !=-1:
+            return dp[index]
+        
+        #take 1st pass on the given day
+        firstPass = costs[0] + self.util(index+1,days,costs,dp)
+        
+        #if we take the 2nd pass then we also need to find out which that till which day the pass will last and we need to decide from there on
+        
+        #2nd pass
+        #skip the days which are covered
+        i=0
+        while i< len(days) and days[i] < days[index] + 7:
+            i +=1
+        secondPass = costs[1] + self.util(i,days,costs,dp)
+        
+        #3rd pass
+        #skip the days which are covered
+        i=0
+        while i< len(days) and days[i] < days[index] + 30:
+            i +=1
+        thirdPass = costs[2] + self.util(i,days,costs,dp)
+                    
+        dp[index] = min(firstPass,min(secondPass,thirdPass))
+        
+        return dp[index]
