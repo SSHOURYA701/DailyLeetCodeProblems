@@ -1,0 +1,19 @@
+#https://leetcode.com/problems/maximum-length-of-repeated-subarray/
+
+class Solution:
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        
+        #Tabulation
+        A=nums1
+        B= nums2
+        dp = [[0] * (len(B) + 1) for _ in range(len(A) + 1)]
+        
+        #v v easy 
+        for i in range(len(A) - 1, -1, -1):
+            for j in range(len(B) - 1, -1, -1):
+                if A[i] == B[j]:
+                    dp[i][j] = dp[i + 1][j + 1] + 1
+        
+        return max(max(row) for row in dp)
+        
+        
