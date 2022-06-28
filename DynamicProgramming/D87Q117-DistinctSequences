@@ -1,0 +1,33 @@
+#https://leetcode.com/problems/distinct-subsequences/
+
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        
+        dp = [[-1 for i in range(len(t)+1)] for i in range(len(s)+1)]
+        answer = self.util(0,0,s,t,dp)
+        
+        return answer
+        
+    
+    def util(self,indStr1,indStr2,str1,str2,dp):
+        
+        #base case will return 1 if we have matched all the value from str2
+        if indStr2 >=len(str2):
+            return 1
+        #base case will return 0 if we have not matched the str2 but str1 is exhausted
+        if indStr1 >=len(str1):
+            return 0
+        
+        if dp[indStr1][indStr2] !=-1:
+            return dp[indStr1][indStr2]
+        
+        same,notSame =0,0
+        
+        #there can be 2 cases that we take the current matching char we dont start the matching of str2 char
+        if str1[indStr1] == str2[indStr2]:
+            same = self.util(indStr1+1,indStr2+1,str1,str2,dp) + self.util(indStr1+1,indStr2,str1,str2,dp)
+        else:
+            notSame = self.util(indStr1+1,indStr2,str1,str2,dp)
+            
+        dp[indStr1][indStr2] = same + notSame
+        return dp[indStr1][indStr2]
