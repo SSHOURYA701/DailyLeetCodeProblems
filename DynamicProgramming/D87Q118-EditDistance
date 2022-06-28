@@ -1,0 +1,44 @@
+#https://leetcode.com/problems/edit-distance/
+
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        
+        dp = [[-1 for i in range(len(word2)+1)] for i in range(len(word1)+1)]
+        
+        answer = self.util(0,0,word1,word2,dp)
+        
+        return answer
+    
+    def util(self,indWord1,indWord2,word1,word2,dp):
+        
+        #Base case 1: when word1 gets exhausted so, how many moves to make the "" -> word2 will be the indWord2 +1 i.e addition of all the remaining chars of word2 to word1
+        if indWord1 == len(word1):
+            return len(word2) - indWord2 
+        #Base case 2: when word2 gets exhausted so how many moves to make "xx" -> "" -> i.e delete all the remaining chars in word1  so it would be indWord1 + 1
+        if indWord2 == len(word2):
+            return len(word1) - indWord1 
+        
+        if dp[indWord1][indWord2] != -1:
+            return dp[indWord1][indWord2]
+        
+        #if the char is matching then we take the char from both words
+        if word1[indWord1] == word2[indWord2]:
+            same = 0 + self.util(indWord1+1,indWord2+1,word1,word2,dp)
+            dp[indWord1][indWord2] = same
+            return dp[indWord1][indWord2]
+        
+        #we have 3 options either insert delete or replace the char
+        else:
+            #when we are inserting in the string 1 then we are inserting at indWord1+1(so it will remain the same) and indWord will increase as we have already matched the char with the inserted char in str1
+            insert = 1 + self.util(indWord1,indWord2+1,word1,word2,dp)
+            
+            #when are deleting the char at indWord1 from str1 then we will increase the indWord1+1 and indWord2 will remain the same
+            delete = 1 + self.util(indWord1+1,indWord2,word1,word2,dp)
+            
+            #since we have replaced the char at indWord1 of word1 to match the char at indWord2 of word2. so both will increase
+            replace = 1 + self.util(indWord1+1,indWord2+1,word1,word2,dp)
+            
+            notSame = min(insert,min(delete,replace))
+            dp[indWord1][indWord2] = notSame
+            
+            return dp[indWord1][indWord2]
