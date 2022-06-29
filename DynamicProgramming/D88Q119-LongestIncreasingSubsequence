@@ -1,0 +1,50 @@
+#https://leetcode.com/problems/longest-increasing-subsequence/submissions/
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+
+            if not nums: 
+                return 0
+
+            N =len(nums)
+
+            dp = [1] * N
+
+            for i in range(N):
+                for j in range(i):
+                    if nums[i] > nums[j]:
+                        dp[i] = max(dp[i], dp[j] + 1)
+
+            return max(dp)
+        
+        #DP with memo gives TLE
+#         if len(nums)==0 or len(nums)==1:
+#             return len(nums)
+        
+        
+#         dp=[[-1 for i in range(len(nums)+1)] for i in range(len(nums))]
+#         answer = self.util(0,-1,nums,dp)
+        
+#         return answer
+    
+#     #instead of storing the prev which would be in the range of [10^-4 , 10^4] we store the index
+#     def util(self,index,prevIndex,nums,dp):
+        
+#         if index == len(nums):
+#             return 0
+        
+#         if dp[index][prevIndex+1] !=-1:
+#             return dp[index][prevIndex+1]
+        
+#         pick,notPick = 0,0
+        
+#         #pick condition is if previous is smaller than current
+#         if prevIndex == -1 or nums[index] > nums[prevIndex] :
+#             pick = 1 + self.util(index+1,index,nums,dp)
+        
+#         notPick =self.util(index+1,prevIndex,nums,dp)
+        
+#         dp[index][prevIndex+1] = max(pick,notPick)
+#         return dp[index][prevIndex+1]
+        
+        
