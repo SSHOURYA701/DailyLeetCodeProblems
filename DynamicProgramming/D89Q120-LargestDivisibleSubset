@@ -1,0 +1,44 @@
+#https://leetcode.com/problems/largest-divisible-subset/
+
+#THIS ALSO CONTAINS PRINTING LIS
+
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        
+        
+        dp=[1 for i in range(len(nums))]
+        maxi=0#stores the len of LDS
+        backTrack = [i for i in range(len(nums))]
+        lastIndex = -1#stores the ending of LDS
+        
+        #SORT THE ARRAY bcz the divisblity wont be comprimised 
+        nums.sort()
+        # print(nums)
+        
+        #similar to LIS tabulation
+        for curr in range(0,len(nums)):
+            for prev in range(0,curr):
+                
+                if (nums[prev] % nums[curr] == 0) or (nums[curr] % nums[prev] == 0):
+                    
+                    #unrolled the max() operation to update the backTrack array
+                    if 1 + dp[prev] > dp[curr]:
+                        dp[curr] = 1+ dp[prev]
+                        backTrack[curr] = prev
+            
+            #opened the maxi = max(maxi,dp[curr]) to update lastIndex variable
+            if dp[curr] > maxi:
+                maxi = dp[curr]
+                lastIndex = curr
+            
+        #getting the lenght perfectly   
+        # print(maxi)
+        
+        answer = [nums[lastIndex]]
+        #Getting LDS
+        while backTrack[lastIndex] != lastIndex : #bcz initially each value has its own index as a value
+            lastIndex = backTrack[lastIndex]
+            answer.append(nums[lastIndex])
+        
+        return answer[::-1]
+                    
