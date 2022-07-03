@@ -1,0 +1,35 @@
+#https://leetcode.com/problems/longest-mountain-in-array/
+
+class Solution:
+    def longestMountain(self, arr: List[int]) -> int:
+        
+        #find peaks and then strech
+        
+        peaks = []
+        
+        for i in range(1,len(arr)-1):
+            #found a peak
+            if arr[i]>arr[i-1] and arr[i]> arr[i+1]:
+                peaks.append(i)
+                
+        answer = 0
+        
+        #for every peak check the slopes of the mountain left and right
+        for peak in peaks:
+    
+            i,j=peak-2,peak+2
+            
+            while i>=0 and arr[i]<arr[i+1]:
+                i-=1
+            
+            while j<=len(arr)-1 and arr[j]<arr[j-1]:
+                j+=1
+            
+            # print(peak,i,j)
+            #bcz we dont need to include i and j
+            currMountain = j-i-1
+                
+            answer = max(currMountain,answer)
+            
+        
+        return answer
