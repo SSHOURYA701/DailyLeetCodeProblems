@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        
+        if root == None:
+            return True
+        
+        nodes = set()
+        answer = self.util(root,nodes,k)
+        return answer
+        
+    def util(self,node,nodes,k):    
+        if not node:
+            return False
+
+        complement = k - node.val
+        if complement in nodes:
+            return True
+
+        nodes.add(node.val)
+
+        return self.util(node.left, nodes, k) or self.util(node.right, nodes, k)
+            
+            
