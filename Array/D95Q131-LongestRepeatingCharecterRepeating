@@ -1,0 +1,35 @@
+#https://leetcode.com/problems/longest-repeating-character-replacement/submissions/
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        
+        
+        left=0
+        #to keep counter of all the chars seen in range [left,right]
+        countDict ={}
+        answer = 0
+        
+        for right in range(len(s)):
+            
+            #if char not in countDict
+            if s[right] not in countDict.keys():
+                countDict[s[right]] =0
+            
+            countDict[s[right]] +=1
+            
+            #cells in window
+            cellCount = right-left+1
+            
+            #checking if we can replace the diff chars which are not the most repeating in the window with k operations
+            #bcz if have AABA and we have k as 2 then we can replace a single B with atmost 2 operations
+            if cellCount - max(countDict.values()) <=k:
+                answer = max(answer,cellCount)
+                
+            else:
+                countDict[s[left]] -=1
+                left +=1
+                
+        
+        return answer
+            
+        
