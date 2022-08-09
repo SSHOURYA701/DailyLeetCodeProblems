@@ -1,0 +1,29 @@
+#https://leetcode.com/problems/generate-parentheses/
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        
+        answer = []
+        self.util(n,0,0,answer,[])
+        return answer
+    
+    
+    def util(self,n,openCount,closeCount,answer,tempList):
+        
+        if len(tempList) == 2*n:
+            answer.append("".join(tempList))
+            return
+        
+        if openCount < n:
+            tempList.append("(")
+            self.util(n,openCount+1,closeCount,answer,tempList)
+            tempList.pop()
+        
+        if closeCount< openCount:
+            tempList.append(")")
+            self.util(n,openCount,closeCount+1,answer,tempList)
+            tempList.pop()
+            
+        
+        
+        
