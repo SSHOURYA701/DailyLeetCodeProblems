@@ -1,0 +1,31 @@
+#https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        
+        digLetDict = {'2':['a','b','c'],'3':['d','e','f'],'4':['g','h','i'],'5':['j','k','l'],
+                          '6':['m','n','o'],'7':['p','q','r','s'],'8':['t','u','v'],'9':['w','x','y','z']}
+        
+        if len(digits) ==0:
+            return []
+        
+        answer = []
+        
+        self.util(digits,digLetDict,answer,0,[])
+        
+        return answer
+    
+    def util(self,digits,digLetDict,answer,currInd,tempList):
+        
+        if currInd == len(digits):
+            # print(tempList)
+            answer.append("".join(tempList))
+            return
+        
+        currDigit = digits[currInd]
+        # print(currInd)
+        for char in digLetDict[currDigit]:
+            tempList.append(char)
+            self.util(digits,digLetDict,answer,currInd+1,tempList)
+            tempList.pop()
+        
