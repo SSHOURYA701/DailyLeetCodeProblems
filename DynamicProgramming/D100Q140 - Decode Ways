@@ -1,0 +1,34 @@
+#https://leetcode.com/problems/decode-ways/
+
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        
+        # mapDict = { 1:a ,2:b}
+        dp = [-1 for i in range(len(s)+1)]
+        answer = self.util(0,s,dp)
+        
+        return answer
+    
+    def util(self,currInd,s,dp):
+        
+        if currInd == len(s):
+            return 1
+        
+        if dp[currInd] !=-1:
+            return dp[currInd]
+        
+        answer = 0
+        
+        #for single digit
+        if s[currInd] !='0':
+            answer += self.util(currInd+1,s,dp)
+        
+        #we can also consider for 2 digits
+        if currInd +1 < len(s) and (s[currInd]=='1' or s[currInd]=='2' and s[currInd+1] <='6'):
+            answer += self.util(currInd+2,s,dp)
+            
+        dp[currInd] = answer
+        return dp[currInd]
+        
+        
+        
