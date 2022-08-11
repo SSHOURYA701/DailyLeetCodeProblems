@@ -1,0 +1,39 @@
+#https://leetcode.com/problems/count-number-of-texts/
+
+class Solution:
+    def countTexts(self, pressedKeys: str) -> int:
+        
+        dp = [-1 for i in range((10**5)+7)]
+        mod = 1e9+7
+        answer = self.util(0,pressedKeys,dp,mod) % mod
+        
+        return answer
+    
+
+        
+    def util(self,currInd,pressedKeys,dp,mod):
+        # print(currInd)
+        if currInd == len(pressedKeys):
+            return 1
+        if dp[currInd] !=-1:
+            return dp[currInd]
+        
+        maxPress,currPress = 3,1
+        
+        if pressedKeys[currInd] == 7 or pressedKeys[currInd] == 9:
+            maxPress = 4
+            
+        loopInd,answer = currInd,0
+        # print(loopInd,currInd)
+        while currPress <= maxPress and loopInd < len(pressedKeys) and pressedKeys[loopInd] == pressedKeys[currInd]:
+            loopInd +=1
+            currPress +=1
+            
+            answer += self.util(loopInd,pressedKeys,dp,mod) % mod
+        
+        # print(answer)
+        dp[currInd] = answer % mod
+        return dp[currInd]
+        
+        
+        
