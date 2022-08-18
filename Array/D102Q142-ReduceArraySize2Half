@@ -1,0 +1,22 @@
+#https://leetcode.com/problems/reduce-array-size-to-the-half/
+
+class Solution:
+    def minSetSize(self, arr: List[int]) -> int:
+        
+
+        countDict = Counter(arr)
+    
+        counter=0
+        tempSum=0
+        
+        countDict = [val for _, val in countDict.most_common()]
+        
+        for val in countDict:
+            
+            tempSum += val
+            counter+=1
+            if tempSum >= len(arr)//2:
+                break
+                
+                
+        return counter
