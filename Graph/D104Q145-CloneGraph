@@ -1,0 +1,47 @@
+#https://leetcode.com/problems/clone-graph/
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        
+        #if node is Null return Null
+        if not node:
+            return node
+        #create a dict for adjList,visited set
+        m, visited = dict(), set()
+        
+        #recursive dfs call
+        self.dfs(node, m, visited)
+        return m[node]
+        
+    def dfs(self, n, m, visited):
+        #if node is already visited return
+        if n in visited:
+            return 
+        
+        #if not visited add in visited
+        visited.add(n)
+        
+        #if currNode is not in adjList then add in
+        if n not in m:
+            m[n] = Node(n.val)
+        
+        #then explore currnode's neighbouts
+        for neigh in n.neighbors:
+            #add neighbour in adjList
+            if neigh not in m:
+                m[neigh] = Node(neigh.val)
+            #add the neighbor as neighbors of currNode
+            m[n].neighbors.append(m[neigh])
+            #recursive dfs call for neighbour
+            self.dfs(neigh, m, visited)
+        
+        
+        
