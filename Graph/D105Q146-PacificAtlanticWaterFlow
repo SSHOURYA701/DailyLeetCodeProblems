@@ -1,0 +1,58 @@
+#https://leetcode.com/problems/pacific-atlantic-water-flow/
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        
+        if not heights: return []
+        
+        rows,cols = len(heights),len(heights[0])
+        
+        answer = []
+        visPac = [[False for i in range(cols)]for i in range(rows)]
+        visAtl = [[False for i in range(cols)]for i in range(rows)]
+
+        dirs = [(0,1),(1,0),(0,-1),(-1,0)]
+        
+        #for 1st and last row
+        for i in range(rows):
+            #for all cells in 1st row check how many more are connected to pacific ocean
+            self.dfs(i,0,visPac,dirs,rows,cols,heights)
+            
+            #for all cells in last row check how many are connected to atlantic ocean
+            self.dfs(i,cols-1,visAtl,dirs,rows,cols,heights)
+            
+        
+        #for 1st and last col
+        for i in range(cols):
+            #for all cells in 1st col check how many more are connected to pacific ocean
+            self.dfs(0,i,visPac,dirs,rows,cols,heights)
+            
+            #for all cells in last col check how many are connected to atlantic ocean
+            self.dfs(rows-1,i,visAtl,dirs,rows,cols,heights)
+            
+        
+        #iterate all the cells and see which cells are reachable from both pacific and atlantic ocean
+        
+        for row in range(rows):
+            for col in range(cols):
+                
+                if visPac[row][col]==True and visAtl[row][col]==True:
+                    answer.append([row,col])
+    
+        return answer
+    
+    
+    def dfs(self,row,col,vis,dirs,rows,cols,grid):
+        # print(row,col)
+        
+        vis[row][col] = True
+        
+        for drow,dcol in dirs:
+            
+            newRow,newCol = row+drow,col+dcol
+            
+            if newRow>=0 and newCol >=0 and newRow<rows and newCol<cols and vis[newRow][newCol] == False and grid[row][col] <=grid[newRow][newCol]:
+                self.dfs(newRow,newCol,vis,dirs,rows,cols,grid)
+            
+            
+            
+        
