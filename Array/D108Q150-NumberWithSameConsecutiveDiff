@@ -1,0 +1,49 @@
+#https://leetcode.com/problems/numbers-with-same-consecutive-differences/
+
+class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        
+        digitList=['1','2','3','4','5','6','7','8','9']
+        answer=[]
+        for digit in digitList:
+            tempQ = []
+            tempQ.append(digit)
+            
+            
+            while len(tempQ)!=0:
+                
+                #pop from the start
+                tempNum = tempQ.pop(0)
+
+                if len(tempNum) == n:
+                    if int(tempNum) not in answer:
+                        answer.append(int(tempNum))
+                    continue
+                elif len(tempNum)>n:
+                    
+                    tempQ.pop(0)
+                    continue
+                
+
+                dig = int(tempNum[-1])
+                
+                #difference of k can be added
+                add = int(dig) + k
+                
+                if add <10:
+                    currNum = tempNum
+                    currNum +=str(add)
+                    tempQ.append(currNum)
+                
+                #diff can be subtracted
+                sub = int(dig) - k
+                if sub>=0:
+                    currNum = tempNum
+                    currNum +=str(sub)
+                    tempQ.append(currNum)
+                    
+                
+                
+        return answer 
+                    
+            
